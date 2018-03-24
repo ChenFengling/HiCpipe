@@ -12,28 +12,14 @@ BLHiC-HepG2
 &ensp;&ensp;&ensp;&ensp;├── 7-iRBM25-Rep1_R1.fq.gz                         
 &ensp;&ensp;&ensp;&ensp;└── 7-iRBM25-Rep1_R2.fq.gz     
 
-
-
-
-
-
-
-
-
-
-
 ## related links
 
 ChIA-PET2 https://github.com/GuipengLi/ChIA-PET2  
-[Hi-Cpro]
 [Hi-Cpro sample](https://zerkalo.curie.fr/partage/HiC-Pro/HiCPro_results/HiC_Pro_v2.7.4_test_data/)  
-[Hi-Cpro](https://github.com/nservant/HiC-Pro)
+[Hi-Cpro](https://github.com/nservant/HiC-Pro)  
 Juicer tools pre https://github.com/theaidenlab/juicer/wiki/Pre#4dn-dcic-format  
-juicerbox https://github.com/theaidenlab/Juicebox  
+juicerbox https://github.com/theaidenlab/Juicebox    
 [video for Juicebox usage](https://www.youtube.com/watch?feature=player_embedded&v=xjNXyeUSfZM)  
-cut -f 7,9,1,2,10,4,5 /home/zliang/3.DataProcess/YY1.Analysis/5-NC-Rep1.rmdup.bedpe >test.pair  
-sed /-1/d test.pair >test2.pair  
-[bam2pairs](https://github.com/4dn-dcic/pairix/tree/master/util/bam2pairs)  
 cnv and transloctaion tools: [HiCtrans](https://github.com/ay-lab/HiCtrans) [HiCnv](https://github.com/ay-lab/HiCnv)  [HiCapp](https://bitbucket.org/mthjwu/hicapp)
 
 related papers
