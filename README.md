@@ -22,6 +22,6 @@ BLHiC-HepG2
 ├── 5-NC-Rep1  
 │   ├── 5-NC-Rep1_R1.fq.gz  
 │   └── 5-NC-Rep1_R2.fq.gz  
-└── 7-iRBM25-Rep1                                      
-&ensp;&ensp;&ensp;├── 7-iRBM25-Rep1_R1.fq.gz                         
-&ensp;&ensp;&ensp;└── 7-iRBM25-Rep1_R2.fq.gz     
+└── 7-iRBM25-Rep1  
+&ensp;&ensp;&ensp;&ensp;├── 7-iRBM25-Rep1_R1.fq.gz                         
+&ensp;&ensp;&ensp;&ensp;└── 7-iRBM25-Rep1_R2.fq.gz     
