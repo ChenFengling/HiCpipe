@@ -18,10 +18,10 @@ related papers
 
 ## input data  
 在/home/data/下面创建一个项目目录，如下BLHiC-HepG2，数据组织形式project/sample/*.fq.gz  
-BLHiC-HepG2
-├── 5-NC-Rep1
-│   ├── 5-NC-Rep1_R1.fq.gz
-│   └── 5-NC-Rep1_R2.fq.gz
-└── 7-iRBM25-Rep1
-    ├── 7-iRBM25-Rep1_R1.fq.gz
-    └── 7-iRBM25-Rep1_R2.fq.gz
+BLHiC-HepG2  
+├── 5-NC-Rep1  
+│   ├── 5-NC-Rep1_R1.fq.gz  
+│   └── 5-NC-Rep1_R2.fq.gz  
+└── 7-iRBM25-Rep1  
+    ├── 7-iRBM25-Rep1_R1.fq.gz  
+    └── 7-iRBM25-Rep1_R2.fq.gz  
