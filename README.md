@@ -1,4 +1,26 @@
 # HiCpipe
+cluster: 166.111.130.43  user:fchen  pw:boyuchenxi
+
+## input data  
+在/home/data/下面创建一个项目目录，如下BLHiC-HepG2，数据组织形式project/sample/*.fq.gz  
+BLHiC-HepG2  
+├── 5-NC-Rep1  
+│ &ensp;&ensp;  ├── 5-NC-Rep1_R1.fq.gz  
+│ &ensp;&ensp;  └── 5-NC-Rep1_R2.fq.gz  
+└── 7-iRBM25-Rep1  
+&ensp;&ensp;&ensp;&ensp;├── 7-iRBM25-Rep1_R1.fq.gz                         
+&ensp;&ensp;&ensp;&ensp;└── 7-iRBM25-Rep1_R2.fq.gz     
+
+
+
+
+
+
+
+
+
+
+
 ## related links
 
 ChIA-PET2 https://github.com/GuipengLi/ChIA-PET2  
@@ -16,12 +38,4 @@ cnv and transloctaion tools: [HiCtrans](https://github.com/ay-lab/HiCtrans) [HiC
 related papers
 [li cheng lab(CNV)](http://cls.pku.edu.cn:8080/index.php?m=content&c=index&a=show&catid=34&id=95)
 
-## input data  
-在/home/data/下面创建一个项目目录，如下BLHiC-HepG2，数据组织形式project/sample/*.fq.gz  
-BLHiC-HepG2  
-├── 5-NC-Rep1  
-│ &ensp;&ensp;  ├── 5-NC-Rep1_R1.fq.gz  
-│ &ensp;&ensp;  └── 5-NC-Rep1_R2.fq.gz  
-└── 7-iRBM25-Rep1  
-&ensp;&ensp;&ensp;&ensp;├── 7-iRBM25-Rep1_R1.fq.gz                         
-&ensp;&ensp;&ensp;&ensp;└── 7-iRBM25-Rep1_R2.fq.gz     
+
