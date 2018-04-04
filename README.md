@@ -1,6 +1,6 @@
 # HiCpipe
-## data
-cluster: 166.111.130.43  user:fchen  pw:boyuchenxi  数据放在/home/data/zhudahai
+## cluster
+cluster: 166.111.130.43  user:fchen  pw:boyuchenxi  
 
 ## input data  
 在/home/fchen/data/下面创建一个项目目录，如下BLHiC-HepG2，数据组织形式project/sample/*.fq.gz  
