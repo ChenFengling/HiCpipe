@@ -3,7 +3,7 @@
 cluster: 166.111.130.43  user:fchen  pw:boyuchenxi  数据放在/home/data/zhudahai
 
 ## input data  
-在/home/fchen/data/下面创建一个项目目录，如下BLHiC-HepG2，数据组织形式project/sample/*.fq.gz  、
+在/home/fchen/data/下面创建一个项目目录，如下BLHiC-HepG2，数据组织形式project/sample/*.fq.gz  
 BLHiC-HepG2  
 ├── 5-NC-Rep1  
 │ &ensp;&ensp;  ├── 5-NC-Rep1_R1.fq.gz  
