@@ -28,9 +28,9 @@ related papers
 ## QC output
 ### trimming step  
 **trim the BL-linker and discard the reads with  less than 15 bases.**     
-Total_PETs 
-Expect_PETs  
-Expect_both_PETs  
+Total_PETs   
+Expect_PETs    
+Expect_both_PETs    
 Chim_PETs  
 1Empty_PETs: The PETs with one end does'not have linker    
 2Empty_PETs: The PETs with two ends don't have linker   
