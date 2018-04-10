@@ -31,7 +31,7 @@ related papers
 Total_PETs 
 Expect_PETs  
 Expect_both_PETs  
-Chim_PETs
+Chim_PETs  
 1Empty_PETs: The PETs with one end does'not have linker    
 2Empty_PETs: The PETs with two ends don't have linker   
 Valid_PETs: Trimed PETs with short reads filtered    
