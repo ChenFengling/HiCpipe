@@ -28,7 +28,7 @@ related papers
 
 
 ### QC output
-####trimming step  
+#### trimming step  
 **trim the BL-linker and discard the reads with  less than 15 bases.**     
 Total_PETs  
 Expect_PETs  
@@ -37,7 +37,7 @@ Chim_PETs
 1Empty_PETs  
 2Empty_PETs  
 Valid_PETs  
-####mapping step  
+#### mapping step  
 Total_pairs_processed  
 Unmapped_pairs  
 Low_qual_pairs  
@@ -48,7 +48,7 @@ Low_qual_singleton
 Unique_singleton_alignments  
 Multiple_singleton_alignments  
 Reported_pairs  
-####filter invalid pairs  
+#### filter invalid pairs  
 **filter the data according to restriction sites**  
 Valid_interaction_pairs  
 Valid_interaction_pairs_FF  
@@ -60,14 +60,14 @@ Religation_pairs
 Self_Cycle_pairs  
 Single-end_pairs  
 Dumped_pairs  
-####filter duplictes   
+#### filter duplictes   
 valid_interaction  
 valid_interaction_rmdup  
 trans_interaction  
 cis_interaction  
 cis_shortRange  
 cis_longRange  
-####general report  
+#### general report  
 valid/total  
 rmdump/valid  
 intra/inter  
