@@ -71,3 +71,16 @@ rmdump/valid
 intra/inter  
 
 
+# 生成mm9对应的自动化流程
+1.compartment.r   
+
+tss=read.table("/home/reference/fchen/mouse/tss.bed")  
+2.java -jar   
+mm10 -> mm9.chrom.size
+3.config-hicpro_mm9.txt  
+vim 查看包含mm10的改成对应  
+其中酶切位点，用https://github.com/nservant/HiC-Pro/tree/master/annotation 里面的要求改  
+```shell
+/home/software/HiC-Pro/bin/utils/digest_genome.py -r GG^CC -o mm9_ggcc.bed /home/reference/mouse/mm9/Sequence/BWAIndex/genome.fa
+```
+
