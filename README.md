@@ -5,8 +5,9 @@ This pipeline is based on Juicer and HiC-pro which combines the advatages of the
 
 The outputs is listed as following:  
 
+
 | name | software | output content   |
-| :------------ |:--------------- |: -----|
+| ------------ |--------------- | -----|
 | mapping | bwa   | merged mapped reads(.bam) |
 | filter | HiC-pro | contact pairs (.txt) |
 | pair2hic | juicer (pre) | compressed Hi-C maps(.hic) |
@@ -15,7 +16,9 @@ The outputs is listed as following:
 | TAD | Insulation score | TAD boundaries(.bed); insulation score(.bw) |
 | CDB | HiCDB | CDBs(.bed); relative insulation score(.bw) |
 | loop | HiCloop | loops(.bedpe) |
-| qc | shell | Hi-C quality report |   
+| qc | shell | Hi-C quality report |
+
+
 
 
 
