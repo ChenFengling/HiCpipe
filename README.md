@@ -5,17 +5,17 @@ This pipeline is based on Juicer and HiC-pro which combines the advatages of the
 
 The outputs is listed as following:  
 
-|name |software|output content   | 
-| :------------ |:--------------- |: -----|
-| mapping| bwa   |merged mapped reads(.bam) |   
-| filter | HiC-pro | contact pairs (.txt) |   
-|pair2hic| juicer (pre)|compressed Hi-C maps(.hic)|
-|hic2map|juicer(dump)|sparse and dense matrix (.mat)|
-|compartmet|R eigen| PC1 values(.txt, .bw)|  
-| TAD |Insulation score |TAD boundaries(.bed); insulation score(.bw)|  
-| CDB |HiCDB|CDBs(.bed); relative insulation score(.bw)|
-|loop| HiCloop| loops(.bedpe)|
-|qc|shell|Hi-C quality report|
+| name | software | output content   |   
+| :------------ |:--------------- |: -----|  
+| mapping | bwa   | merged mapped reads(.bam) |     
+| filter | HiC-pro | contact pairs (.txt) |  
+| pair2hic | juicer (pre) | compressed Hi-C maps(.hic) |  
+| hic2map | juicer(dump) | sparse and dense matrix (.mat) |  
+| compartmet | R eigen | PC1 values(.txt, .bw) |      
+| TAD | Insulation score | TAD boundaries(.bed); insulation score(.bw) |    
+| CDB | HiCDB | CDBs(.bed); relative insulation score(.bw) |  
+| loop | HiCloop | loops(.bedpe) |  
+| qc | shell | Hi-C quality report |  
 
 
 Other utility:  
