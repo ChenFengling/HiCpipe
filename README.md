@@ -1,5 +1,31 @@
 # HiCpipe
 
+## general description of the pipeline
+This pipeline is based on Juicer and HiC-pro which combines the advatages of these two processing pipelines. HiCpipe is much faster than Juicer and HiC-pro and can output multile features of Hi-C maps.
+
+The outputs is listed as following:  
+
+|name |software|output content   | 
+| :------------ |:--------------- |: -----|
+| mapping| bwa   |merged mapped reads(.bam) |   
+| filter | HiC-pro | contact pairs (.txt) |   
+|pair2hic| juicer (pre)|compressed Hi-C maps(.hic)|
+|hic2map|juicer(dump)|sparse and dense matrix (.mat)|
+|compartmet|R eigen| PC1 values(.txt, .bw)|  
+| TAD |Insulation score |TAD boundaries(.bed); insulation score(.bw)|  
+| CDB |HiCDB|CDBs(.bed); relative insulation score(.bw)|
+|loop| HiCloop| loops(.bedpe)|
+|qc|shell|Hi-C quality report|
+
+
+Other utility:  
+Easy clustering based on compartment and insulation.  
+Statistics of Hi-C features.
+
+
+
+
+
 ## input data  
 在/home/fchen/data/下面创建一个项目目录，如下BLHiC-HepG2，数据组织形式project/sample/*.fq.gz  
 BLHiC-HepG2   
