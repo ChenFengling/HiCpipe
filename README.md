@@ -27,7 +27,7 @@ Statistics of Hi-C features.
 Organize your data as PROJECT_PATH/sample/sample.fq.gz, for example    
 
 BLHiC-project1  
-├── sample1 
+├── sample1         
 │ &ensp;&ensp;  ├── sample1_R1.fq.gz  
 │ &ensp;&ensp;  └── sample1_R2.fq.gz  
 └── sample2  
