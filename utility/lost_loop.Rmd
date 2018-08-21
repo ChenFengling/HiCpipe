@@ -1,0 +1,168 @@
+---
+title: "diff loop and its histone modification"
+author: "ChenFengling"
+date: "2018Äê6ÔÂ17ÈÕ"
+output: html_document
+---
+See histone marker on differential loops
+
+## lost loops
+
+
+```{bash, eval=FALSE,echo=FALSE}
+### CTCF motif enrichment on 
+time -p java -jar ${JUICER}/juicer_tools.jar motifs hg19 /path/to/local/bed/files gm12878_hiccups_loops.txt hg_19_custom_motif_list.txt
+  /home/fchen/data/zhudahai_insitu_process/lost_loop.bedpe   lost_GM
+```
+
+### use Juicer to see the APA
+
+```{bash ,eval=FALSE}
+time -p java -jar ${JUICER}/juicer_tools.jar apa -w 5 -u  -r 10000 /home/fchen/data/zhuda hai_insitu_process/GM/hicfile/GM.hic  /home/fchen/data/zhudahai_insitu_process/lost_loop.bedpe   lost_GM
+time -p java -jar ${JUICER}/juicer_tools.jar apa -w 5 -u  -r 10000 /home/fchen/data/zhuda hai_insitu_process/DM/hicfile/DM.hic  /home/fchen/data/zhudahai_insitu_process/lost_loop.bedpe   lost_DM
+```
+
+ 
+![APA for GM](lost_loop_GM/10000/gw/APA.png)
+![APA for DM](lost_loop_DM/10000/gw/APA.png)
+
+
+the measures for GM  (see ZscoreLL and P2LL	for comparison)
+
+```{r ,echo=FALSE}
+sample="lost_loop"
+measure=read.table(paste(sample,"GM/10000/gw/measures.txt",sep="_"))
+measure
+```
+
+the measures for DM
+
+```{r ,echo=FALSE}
+measure=read.table(paste(sample,"DM/10000/gw/measures.txt",sep="_"))
+measure
+```
+
+
+### load the loop data 
+```{r loaddata,echo=FALSE }
+GM1=read.table(paste(sample,"_anchor1.mat",sep=""),stringsAsFactors = F)
+GM1[,4]=unlist(lapply(strsplit(GM1[,4],split="_"),function(x){return(x[1])}))
+GM2=read.table(paste(sample,"_anchor2.mat",sep=""),stringsAsFactors = F)
+GM2[,4]=unlist(lapply(strsplit(GM2[,4],split="_"),function(x){return(x[1])}))
+#pp
+count=c()
+pos=which(GM1[,4]!="-1" & GM2[,4]!="-1")
+count[1]=length(pos)
+pos=which((GM1[,4]=="-1" & GM2[,4]!="-1")|(GM1[,4]!="-1" & GM2[,4]=="-1"))
+count[2]=length(pos)
+pos=which(GM1[,4]=="-1" & GM2[,4]=="-1")
+count[3]=length(pos)
+```
+The count of PP,PE,EE is
+
+```{r printnumber,echo=FALSE}
+count
+```
+
+### correlation between histone modification 
+*.l means local histone modification.
+*.d means distal histone modification.
+```{r,echo=FALSE,message = FALSE,fig.width=6.5,fig.heigh=6}
+# DM1=read.table("DM_anchor1.mat",stringsAsFactors = F)
+# DM2=read.table("DM_anchor2.mat",stringsAsFactors = F)
+GMA=as.matrix(GM1[,7:ncol(GM1)])
+GMB=as.matrix(GM2[,7:ncol(GM2)])
+GMA[which(is.na(GMA))]=0
+GMB[which(is.na(GMB))]=0
+a=matrix(0,nrow(GMA),32)
+for(i in 1:16){
+  a[,i]=apply(GMA[,(1+10*(i-1)):(10*i)],1, max)
+  a[,i+16]=apply(GMB[,(1+10*(i-1)):(10*i)],1, max)
+}
+a=as.data.frame(a)
+#a=a[pos,]
+a=a[,-c(7,15,23,31)]
+his=c("CTCF","SMC1","MyoD","K4me3","K27ac","K4ME1","K27me3")
+names(a)=c(paste(his,"GM.l",sep="."),paste(his,"DM.l",sep="."),paste(his,"GM.d",sep="."),paste(his,"DM.d",sep="."))
+##
+mat=cor(a)
+mat=as.data.frame(mat)
+names(mat)=names(a)
+library("pheatmap")
+library("ellipse")
+pdf(paste(sample,"_histon_cor.pdf",sep=""),height=5,width=5.5)
+pheatmap(mat)
+dev.off()
+pheatmap(mat)
+```
+
+###  class the loops  
+
+select class for loops based on histone modification
+
+```{r histoneclass,echo=FALSE,message = FALSE,width=6.5,fig.heigh=6}
+mydata <- a
+wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
+for (i in 2:15) wss[i] <- sum(kmeans(mydata,
+                                     centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares")
+```
+
+output the heatmap of loops based on kmeans clustering 
+
+```{r selectclass,echo=FALSE,message = FALSE,width=6.5,fig.heigh=6,results='hide'}
+km=kmeans(a,9)
+datamatrix2=cbind(a,km$cluster)
+gene=rbind(cbind(GM1[,4],km$cluster),cbind(GM2[,4],km$cluster))
+o <- order(datamatrix2[, ncol(datamatrix2)])
+datamatrix2 <- datamatrix2[o, ]
+bk <- c(seq(-1,0,by=0.0002),seq(0.002,1,by=0.0002))
+class=data.frame(class=datamatrix2[,ncol(datamatrix2)])
+row.names(class)=row.names(datamatrix2)
+pdf(paste(sample,"loop_heatmap.pdf",sep="_"),height=7,width=4.5)
+pheatmap(datamatrix2[,1:(ncol(datamatrix2)-1)],cluster_rows=F,show_rownames=FALSE,annotation_row=class,
+         color = c(colorRampPalette(colors = c("blue","white"))(length(bk)/2),colorRampPalette(colors = c("white","red"))(length(bk)/2)),
+         legend_breaks=seq(-1,1,0.5),
+         breaks=bk,scale="column")
+dev.off()
+pheatmap(datamatrix2[,1:(ncol(datamatrix2)-1)],cluster_rows=F,show_rownames=FALSE,annotation_row=class,
+         color = c(colorRampPalette(colors = c("blue","white"))(length(bk)/2),colorRampPalette(colors = c("white","red"))(length(bk)/2)),
+         legend_breaks=seq(-1,1,0.5),
+         breaks=bk,scale="column")
+# class=data.frame(class=datamatrix2[,17])
+# row.names(class)=row.names(datamatrix2)
+# pheatmap(datamatrix2[,1:8],cluster_rows=F,show_rownames=FALSE,annotation_row=class)
+```
+
+number of different class
+
+```{r ,echo=FALSE,message = FALSE}
+table(km$cluster) 
+```
+
+### gene expression around different loop classes   
+
+```{r genes,echo=FALSE,message = FALSE,width=6.5,fig.heigh=6, warning=FALSE }
+gene=unique(gene) 
+gene=gene[gene[,1]!="-1",]
+express=read.table("D:/HiCpipe/zhudahai/C2C12/loop/anchor2/gene.txt",header=TRUE,stringsAsFactors = FALSE)
+express=express[express$GM_normalize>4,]
+pos=match(gene[,1],express[,3])
+gene=cbind(express[pos,2],gene[,2])
+write.table(gene,paste(sample,"gene_class.txt",sep='_'),sep="\t",quote=F,col.names=F,row.names=F)
+df=data.frame(size=log(as.numeric(gene[,1]),10),algorithm=factor(gene[,2]))
+names(df)=c("size","class")
+library(ggplot2)
+
+p <- ggplot(df, aes( x=class,y=size,fill= class)) +# stat_summary(fun.y=median, geom="point", size=9, color="red")+
+  geom_violin()+theme_set(theme_bw())+theme(legend.position = 'right',panel.grid.major=element_line(colour=NA))+
+  labs(x="loop class",y="log10(count)")
+
+p=p+stat_summary(fun.data=mean_sdl, geom="pointrange",color="black")
+plot(p)
+ggsave(paste(sample,"loop_expression.pdf",sep="_"),p,width =4,height = 6)
+
+```
+
+
