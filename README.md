@@ -24,7 +24,8 @@ Easy clustering based on compartment and insulation.
 Statistics of Hi-C features.
 
 ## input data  
-Organize your data as PROJECT_PATH/sample/sample.fq.gz, for example      
+Organize your data as PROJECT_PATH/sample/sample.fq.gz, for example    
+
 BLHiC-project1
 ├── sample1 
 │ &ensp;&ensp;  ├── sample1_R1.fq.gz  
@@ -51,7 +52,7 @@ Configuration should be changed in config-hicpro_*.txt: BOWTIE2_IDX_PATH GENOME_
 ```R
 tss=read.table("YOUR_TSS_FOLDER/tss.bed")
 ```
-2. change BOWTIE2_IDX_PATH GENOME_SIZE  GENOME_FRAGMENT in config-hicpro.txt
+2.change BOWTIE2_IDX_PATH GENOME_SIZE  GENOME_FRAGMENT in config-hicpro.txt
 follow the instrcution in https://github.com/nservant/HiC-Pro/tree/master/annotation to generate the sites of restriction enzyme.
 ```shell
 /home/software/HiC-Pro/bin/utils/digest_genome.py -r GG^CC -o mm9_ggcc.bed /home/reference/mouse/mm9/Sequence/BWAIndex/genome.fa
