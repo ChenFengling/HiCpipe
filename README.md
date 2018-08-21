@@ -1,6 +1,6 @@
 # HiCpipe
 
-## general description of the pipeline
+#### general description of the pipeline
 This pipeline is based on Juicer and HiC-pro which combines the advatages of these two processing pipelines. HiCpipe is much faster than Juicer and HiC-pro and can output multile features of Hi-C maps.
 
 The outputs is listed as following:  
@@ -22,6 +22,15 @@ The outputs is listed as following:
 Other utility:  
 Easy clustering based on compartment and insulation.  
 Statistics of Hi-C features.
+
+## pipeline install 
+All software metioned before should be installed first.
+To install this pipeline, simply download this pipeline and use the shell script.
+```shell
+git clone https://github.com/ChenFengling/HiCpipe.git
+```
+
+
 
 ## input data  
 Organize your data as PROJECT_PATH/sample/sample.fq.gz, for example    
@@ -47,7 +56,7 @@ Configuration should be changed in config-hicpro_*.txt: BOWTIE2_IDX_PATH GENOME_
 
 
 
-## how to use other genomes rather than mm9/mm10/hg19
+#### how to use other genomes rather than mm9/mm10/hg19
 1.change tss annotation in compartment.r
 ```R
 tss=read.table("YOUR_TSS_FOLDER/tss.bed")
@@ -64,8 +73,8 @@ Use HiCqc.sh to generate Hi-C qc report
 sh HiCqc.sh PROJECT_PATH REPORT_NAME
 ``` 
 You will find the qc report **REPORT_NAME_report.txt** under PROJECT_PATH.
-## QC output
-### trimming step  
+### QC output
+#### trimming step  
 **trim the BL-linker and discard the reads with  less than 15 bases.**     
 Total_PETs   
 Expect_PETs    
@@ -74,7 +83,7 @@ Chim_PETs
 1Empty_PETs: The PETs with one end does'not have linker    
 2Empty_PETs: The PETs with two ends don't have linker   
 Valid_PETs: Trimed PETs with short reads filtered    
-### mapping step  
+#### mapping step  
 Total_pairs_processed  
 Unmapped_pairs  
 Low_qual_pairs  
@@ -85,7 +94,7 @@ Low_qual_singleton
 Unique_singleton_alignments  
 Multiple_singleton_alignments  
 Reported_pairs  
-### filter invalid pairs  
+#### filter invalid pairs  
 **filter the data according to restriction sites**  
 Valid_interaction_pairs  
 Valid_interaction_pairs_FF  
@@ -97,14 +106,14 @@ Religation_pairs
 Self_Cycle_pairs  
 Single-end_pairs  
 Dumped_pairs  
-### filter duplictes   
+#### filter duplictes   
 valid_interaction  
 valid_interaction_rmdup  
 trans_interaction  
 cis_interaction  
 cis_shortRange  
 cis_longRange  
-### general report  
+#### general report  
 valid/total  
 rmdump/valid  
 intra/inter  
