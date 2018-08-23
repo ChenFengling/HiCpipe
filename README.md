@@ -49,10 +49,10 @@ You will get the summarized data in PROJECT_PATH/all_results/
 ## quick start 
 use the following code to analyse your BL-HiC data
 ```shell
-sh main.sh $RawData_Dir $Resolution $genome $core $Scriptpath
+sh main.sh $PROJECT_PATH $Resolution $genome $core $HiCpipe_PATH
 ```
 
-Configuration should be changed in config-hicpro_*.txt: BOWTIE2_IDX_PATH GENOME_SIZE  GENOME_FRAGMENT
+Configurations should be changed in config-hicpro_*.txt: BOWTIE2_IDX_PATH GENOME_SIZE  GENOME_FRAGMENT.
 
 
 
