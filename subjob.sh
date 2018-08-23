@@ -19,7 +19,7 @@ then
 
 elif [ "$genome" == "$mm9" ]
 then
-        Chromosome_File="/home/reference/mouse/mm9/Sequence/WholeGenomeFasta/mm9.chrom.sizes"I
+        Chromosome_File="/home/reference/mouse/mm9/Sequence/WholeGenomeFasta/mm9.chrom.sizes"
 
 else
         Chromosome_File="/home/reference/elegans/elegans.chrom.size"
@@ -43,9 +43,12 @@ sed -i 's/+/0/g'  hicfile/$2.txt
 sed -i 's/-/16/g'  hicfile/$2.txt
 time java -jar ${JUICER}/juicer_tools.jar pre -r 500000,250000,100000,50000,40000,25000,20000,10000,5000,1000 hicfile/$2.txt  hicfile/$2.hic $Chromosome_File
 
+echo $genome
+echo $nchrom
 #### step.3 extract data  #####
 for j in $(eval echo "{1..$[nchrom-1]}")
 do
+echo $j
 java -jar ${JUICER}/juicer_tools.jar  dump observed NONE hicfile/$2.hic  ${j} ${j}  BP $Resolution  maps/chr${j}.matrix
 done
 java -jar ${JUICER}/juicer_tools.jar  dump observed NONE hicfile/$2.hic X  X  BP $Resolution  maps/chr${nchrom}.matrix
@@ -96,7 +99,8 @@ cp TAD/$2_TAD.sort.bed   $1/all_results/
 
 ##### step.6 HiCDB #####
 HiCdir={\'$1/$2/maps/\'}
-matlab -r "addpath(genpath('/home/fchen/HiCDB/'));HiCDB($HiCdir,$Resolution,$genome,'ref',$genome);exit;"
+ref=\'$genome\'
+matlab -r "addpath(genpath('/home/fchen/HiCDB/'));HiCDB($HiCdir,$Resolution,$ref,'ref',$ref);exit;"
 awk -v OFS="\t" '{ print "chr"$1,$2,$3,$4,$5}' maps/CDB.txt >maps/$2_CDB.bed
 sed -i  "s/${nchrom}/chrX/g" maps/$2_CDB.bed
 cp maps/$2_CDB.bed $1/all_results/
