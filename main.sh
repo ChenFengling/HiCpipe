@@ -38,8 +38,9 @@ fi
 
 ############main script ###############################
 cd ${RawData_Dir}
-for i in *  
+for var in */*_R1.fq.gz  
 do 
+i=${var%%/*}
 cd ${RawData_Dir}/${i}
 mkdir rawdata
 mkdir rawdata/${i}
@@ -57,9 +58,10 @@ time bwa mem -t $core ${BWA_File}  rawdata/${i}/${i}_1.valid.fastq |samtools vie
 time bwa mem -t $core ${BWA_File}  rawdata/${i}/${i}_2.valid.fastq |samtools view  -b -@ $core -h -F 2048 > bowtie_results/bwt2/${i}/${i}_2.valid_${genome}.bwt2merged.bam
 done 
 cd  ${RawData_Dir}
-for i in *
+for var in */*_R1.fq.gz
 ####  step.3 generate features for each sample 
 do 
+i=${var%%/*}
 nohup sh $Scriptpath/subjob.sh ${RawData_Dir} ${i} ${Resolution} ${genome} $Scriptpath  &> ${i}/${i}_sub.log &
 done
 
