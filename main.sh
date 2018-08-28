@@ -28,7 +28,7 @@ elif [ "$genome" == "$mm9" ]
 then
         echo "genome assembly mm9"
         BWA_File="/home/reference/mouse/mm9/Sequence/BWAIndex/genome.fa"
-        Chromosome_File="/home/reference/mouse/mm9/Sequence/WholeGenomeFasta/mm9.chrom.sizes"I
+        Chromosome_File="/home/reference/mouse/mm9/Sequence/WholeGenomeFasta/mm9.chrom.sizes"
 
 else
         echo "genome assembly $genome "
