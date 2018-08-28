@@ -56,9 +56,9 @@ java -jar ${JUICER}/juicer_tools.jar  dump observed NONE hicfile/$2.hic X  X  BP
 ##### step.4 compartment  #####
 for j in $(eval echo "{1..$[nchrom-1]}")
 do
-java -jar ${JUICER}/juicer_tools.jar  pearsons -p KR  hicfile/$2.hic $j BP 100000  compartment/KRchr$j
+java -jar  ${JUICER}/juicer_tools.jar  eigenvector -p KR hicfile/$2.hic ${j} BP 100000 compartment/$2_chr${j}_pc1_100k.txt
 done
-java -jar ${JUICER}/juicer_tools.jar  pearsons -p KR  hicfile/$2.hic X BP 100000  compartment/KRchr${nchrom}
+java -jar  ${JUICER}/juicer_tools.jar  eigenvector -p KR hicfile/$2.hic X BP 100000  compartment/$2_chrX_pc1_100k.txt
 cd compartment
 #Rscript  ${Scriptpath}/calcuchrX_comp.r $2
 Rscript ${Scriptpath}/compartment.r $2_ ${genome}
