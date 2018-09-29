@@ -68,7 +68,7 @@ sort -k1,1 -k2,2n $2_pc1.bdg >$2_pc1.bdg.sort
 bedGraphToBigWig $2_pc1.bdg.sort   ${Chromosome_File}  $2_pc1.bw
 rm $2_pc1.bdg.sort $2_pc1.bdg
 cd ../
-
+cp  compartment/$2_pc1.bw  $1/all_results/
 ##### step.5 insulation #####
 cd $1/$2
 for j in $(eval echo "{1..$nchrom}")
@@ -102,7 +102,7 @@ HiCdir={\'$1/$2/maps/\'}
 ref=\'$genome\'
 matlab -r "addpath(genpath('/home/fchen/HiCDB/'));HiCDB($HiCdir,$Resolution,$ref,'ref',$ref);exit;"
 awk -v OFS="\t" '{ print "chr"$1,$2,$3,$4,$5}' maps/CDB.txt >maps/$2_CDB.bed
-sed -i  "s/${nchrom}/chrX/g" maps/$2_CDB.bed
+sed -i  "s/chr${nchrom}/chrX/g" maps/$2_CDB.bed
 cp maps/$2_CDB.bed $1/all_results/
 
 ##### step.7 HiCloop #####
