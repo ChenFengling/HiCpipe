@@ -92,7 +92,7 @@ for i in $(eval echo "{1..$nchrom}")
 do 
 awk '{printf("%s\t%d\t%d\t%0.8f\n",$1,$2,$3,$5)}'  KRchr${i}.is1000001.ids240001.insulation.boundaries.bed >>$2_TAD.bed
 done
-sed -i "s/${nchrom}/chrX/g" $2_TAD.bed
+sed -i "s/chr${nchrom}/chrX/g" $2_TAD.bed
 sort -k1,1 -k2,2n -u $2_TAD.bed>$2_TAD.sort.bed
 cd ..
 cp TAD/$2_TAD.sort.bed   $1/all_results/
