@@ -71,7 +71,7 @@ cd ../
 cp  compartment/$2_pc1.bw  $1/all_results/
 ##### step.5 insulation #####
 cd $1/$2
-for j in $(eval echo "{1..$nchrom}")
+for j in $(eval echo "{1..$[nchrom-1]}")
 do
 java -jar ${JUICER}/juicer_tools.jar  dump -d observed KR hicfile/$2.hic  ${j} ${j}   BP 40000  TAD/KRchr${j}
 done
