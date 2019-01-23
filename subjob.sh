@@ -42,6 +42,7 @@ sort -k3,3d -k7,7d --parallel=8 hic_results/data/$2/$2_tmp > hicfile/$2.txt
 sed -i 's/+/0/g'  hicfile/$2.txt
 sed -i 's/-/16/g'  hicfile/$2.txt
 time java -jar ${JUICER}/juicer_tools.jar pre -r 500000,250000,100000,50000,40000,25000,20000,10000,5000,1000 hicfile/$2.txt  hicfile/$2.hic $Chromosome_File
+ln -s $1/$2/hicfile/$2.hic $1/all_results/$2.hic
 
 echo $genome
 echo $nchrom
@@ -104,20 +105,3 @@ matlab -r "addpath(genpath('/home/fchen/HiCDB/'));HiCDB($HiCdir,$Resolution,$ref
 awk -v OFS="\t" '{ print "chr"$1,$2,$3,$4,$5}' maps/CDB.txt >maps/$2_CDB.bed
 sed -i  "s/chr${nchrom}/chrX/g" maps/$2_CDB.bed
 cp maps/$2_CDB.bed $1/all_results/
-
-##### step.7 HiCloop #####
-mkdir Loops
-for j in $(eval echo "{1..$nchrom}")
-do
-file=[\'maps/chr${j}.matrix\']
-echo ${file}
-matlab -nodisplay -nojvm -nosplash -r "CHROM=${j};file=${file};RESOL=${Resolution};" </home/software/HiCloop/main.m 
-done
-cat Loops/*.bedpe >$2_ori_loop.bedpe
-cat Loops/dataY-10kb-chr* >dataY-10kb-all.txt
-
-python /home/software/HiCloop/hicloop_cnn.py
-sort -k8,8g cnn_predict_prob.txt |awk -v OFS="\t" '{if($9>0.5) print "chr"$1,$2,$3,"chr"$4,$5,$6,$7,$9}' > $2_cnn_loop.bedpe
-sed -i "s/${nchrom}/chrX/g" $2_cnn_loop.bedpe 
-rm cnn_predict_prob.txt
-cp $2_cnn_loop.bedpe $1/all_results/

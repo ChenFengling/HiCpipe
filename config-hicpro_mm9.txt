@@ -58,7 +58,7 @@ ALLELE_SPECIFIC_SNP =
 ## Digestion Hi-C
 #######################################################################
 
-GENOME_FRAGMENT = /home/fchen/HiCpipe/pipe/mm9_ggcc.bed
+GENOME_FRAGMENT = /home/data/mm9_ggcc.bed
 LIGATION_SITE = GGCC
 MIN_FRAG_SIZE = 
 MAX_FRAG_SIZE = 

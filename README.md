@@ -1,7 +1,7 @@
 # HiCpipe
 
 #### general description of the pipeline
-This pipeline is based on Juicer and HiC-pro which combines the advatages of these two processing pipelines. HiCpipe is much faster than Juicer and HiC-pro and can output multile features of Hi-C maps.
+This pipeline is for BL-Hi-C.It is based on Juicer and HiC-pro which combines the advatages of these two processing pipelines. HiCpipe is much faster than Juicer and HiC-pro and can output multile features of Hi-C maps. The main.sh will trim the Linker of BL-Hi-C and map the data to certein genome. Then it will use the subjob.sh script to do the other steps in parallel in shell background. You could use top or htop to check your running program. 
 
 The outputs is listed as following:  
 
@@ -51,9 +51,7 @@ use the following code to analyse your BL-HiC data
 ```shell
 sh main.sh $PROJECT_PATH $Resolution $genome $core $HiCpipe_PATH
 ```
-
-Configurations should be changed in config-hicpro_*.txt: BOWTIE2_IDX_PATH GENOME_SIZE  GENOME_FRAGMENT.
-
+**Configurations should be changed in config-hicpro_*.txt: BOWTIE2_IDX_PATH GENOME_SIZE  GENOME_FRAGMENT.**
 
 
 #### how to use other genomes rather than mm9/mm10/hg19
@@ -70,10 +68,16 @@ follow the instrcution in https://github.com/nservant/HiC-Pro/tree/master/annota
 ## generate QC report
 Use HiCqc.sh to generate Hi-C qc report
 ```shell 
-sh HiCqc.sh PROJECT_PATH REPORT_NAME
+sh HiCqc.sh $PROJECT_PATH $REPORT_NAME $HiCpipe_PATH
 ``` 
 You will find the qc report **REPORT_NAME_report.txt** under PROJECT_PATH.
+
 ### QC output
+#### QC suggestion
+**Valid_interaction_pairs/Total_PETsTotal_PETs (>50%)**
+**valid_interaction_rmdup/Valid_interaction_pairs (>85%)**
+**cis_interaction/trans_interaction (>1.5)**
+
 #### trimming step  
 **trim the BL-linker and discard the reads with  less than 15 bases.**     
 Total_PETs   
@@ -112,11 +116,7 @@ valid_interaction_rmdup
 trans_interaction  
 cis_interaction  
 cis_shortRange  
-cis_longRange  
-#### general report  
-valid/total  
-rmdump/valid  
-intra/inter  
+cis_longRange    
 
 
 ## related links
