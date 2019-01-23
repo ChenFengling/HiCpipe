@@ -74,9 +74,9 @@ You will find the qc report **REPORT_NAME_report.txt** under PROJECT_PATH.
 
 ### QC output
 #### QC suggestion
-**Valid_interaction_pairs/Total_PETsTotal_PETs (>50%)**
-**valid_interaction_rmdup/Valid_interaction_pairs (>85%)**
-**cis_interaction/trans_interaction (>1.5)**
+**Valid_interaction_pairs/Total_PETsTotal_PETs (>50%)**  
+**valid_interaction_rmdup/Valid_interaction_pairs (>85%)**  
+**cis_interaction/trans_interaction (>1.5)**  
 
 #### trimming step  
 **trim the BL-linker and discard the reads with  less than 15 bases.**     
