@@ -19,7 +19,7 @@ The outputs is listed as following:
 | qc | shell | Hi-C quality report |
 
 &emsp;&emsp;Here is the general features of HiCpipe software.(in developing)  
-<div align=center><img width="420" height="300" src="https://github.com/ChenFengling/HiCpipe/HiCpipe.png"/></div>
+<div align=center><img width="420" height="300" src="https://github.com/ChenFengling/HiCpipe/blob/master/HiCpipe.png"/></div>
 
 Other utility:  
 Easy clustering based on compartment and insulation.  
