@@ -1,0 +1,291 @@
+---
+title: "compartment"
+output: html_document
+---
+```{r}
+args=c("/data02/fchen/TALL/all_results/compartment/","normal","T-ALL")
+sample = list.files(path = args[1])
+sample=c("093-N","124-N","076-N","077-N","097-N","098-N","107-N","117-N","108-N","115-N","102-N","103-N","MXYL-N","116-N","118-N","121-N","122-N","123-N","WYL","YL","ZHC","ZK2")
+dir = paste(args[1],"/",sample,"_pc1_ori.bdg",sep = "")
+n <- length(sample)
+datamatrix <- read.table(file =dir[1],stringsAsFactors=FALSE)
+for (jj in 2:n) {
+  data <- read.table(file = dir[jj],stringsAsFactors=FALSE)
+  datamatrix <- cbind(datamatrix, data[,4])
+}
+
+datamatrix=as.data.frame(datamatrix)
+names(datamatrix)=c("chr","start","end",sample)
+
+
+# MYB: 6_135300000_135800000_
+pdf("MYB_compartment.pdf",height=2,width=4)
+mat=datamatrix[datamatrix$chr=="chr6" &datamatrix$start>135300000-100000 &datamatrix$end<135800000+100000,]
+
+# CDK6: 7_92150000_92850000_
+pdf("CDK6_compartment.pdf",height=2,width=4)
+mat=datamatrix[datamatrix$chr=="chr7" &datamatrix$start>92150000-100000 &datamatrix$end<92850000+100000,]
+
+# MYC: 8_127500000_131000000_
+pdf("MYC_compartment.pdf",height=2,width=4)
+mat=datamatrix[datamatrix$chr=="chr8" &datamatrix$start>127500000-100000 &datamatrix$end<131000000+100000,]
+
+# WT1: chr11:32300000-32500000
+pdf("WT1_compartment.pdf",height=2,width=4)
+mat=datamatrix[datamatrix$chr=="chr11" &datamatrix$start>32200000 &datamatrix$end<32600000,] 
+
+# ERG 21_39061800_40562000_
+pdf("ERG_compartment.pdf",height=2,width=4)
+mat=datamatrix[datamatrix$chr=="chr21" &datamatrix$start>39061800-100000 &datamatrix$end<40562000+100000,]
+
+
+## SOX4: chr6:21500000-22300000
+pdf("SOX4_compartment.pdf",height=2,width=4)
+mat=datamatrix[datamatrix$chr=="chr6" &datamatrix$start>21400000 &datamatrix$end<22400000,]
+
+## MYCN: 2_15550000_17250000
+pdf("MYCN_compartment.pdf",height=2,width=4)
+mat=datamatrix[datamatrix$chr=="chr2" &datamatrix$start>15550000-100000 &datamatrix$end<17250000+100000,]
+
+bk <- c(seq(-0.04,-0.001,by=0.001),seq(0,0.04,by=0.001))
+mat=mat[,c("ZHC","ZK2","WYL","YL","076-N","077-N","097-N","098-N","107-N","108-N","115-N","093-N","117-N","124-N","102-N","103-N","122-N","123-N","116-N","118-N","121-N","MXYL-N")]
+info=read.table("sampleinfo2.txt",header=TRUE)
+annotation=info$condition[match(names(mat),info$sample)]
+annotation=data.frame(type=factor(info$type[match(names(mat),info$sample)],levels=c("normal","patient")))
+row.names(annotation)=names(mat)
+ann_colors = list(type = c(normal = "#E29D13", patient="#1C7245"))
+
+library("pheatmap")
+pheatmap(t(mat),show_rownames=FALSE,cluster_rows = FALSE,cluster_cols = FALSE,border_color = NA,annotation_row=annotation,annotation_colors =ann_colors,
+         color = c(colorRampPalette(colors = c("blue","white"))(length(bk)/2),colorRampPalette(colors = c("white","red"))(length(bk)/2)),
+         legend_breaks=seq(-0.04,0.04,0.02),
+         breaks=bk)
+dev.off()
+
+
+
+
+
+
+
+## SOX4: chr6:21500000-22300000
+bk <- c(seq(-0.04,-0.001,by=0.001),seq(0,0.04,by=0.001))
+mat=datamatrix[datamatrix$chr=="chr6" &datamatrix$start>21400000 &datamatrix$end<22400000,]
+mat=mat[,c("ZHC","ZK2","WYL","YL","076-N","077-N","097-N","098-N","107-N","108-N","115-N","093-N","117-N","124-N","102-N","103-N","122-N","123-N","116-N","118-N","121-N","MXYL-N")]
+info=read.table("sampleinfo2.txt",header=TRUE)
+annotation=info$condition[match(names(mat),info$sample)]
+annotation=data.frame(type=factor(info$type[match(names(mat),info$sample)],levels=c("normal","patient")))
+row.names(annotation)=names(mat)
+ann_colors = list(type = c(normal = "#E29D13", patient="#1C7245"))
+
+library("pheatmap")
+pdf("SOX4_compartment.pdf",height=2,width=4)
+pheatmap(t(mat),show_rownames=FALSE,cluster_rows = FALSE,cluster_cols = FALSE,border_color = NA,annotation_row=annotation,annotation_colors =ann_colors,
+         color = c(colorRampPalette(colors = c("blue","white"))(length(bk)/2),colorRampPalette(colors = c("white","red"))(length(bk)/2)),
+         legend_breaks=seq(-0.04,0.04,0.02),
+         breaks=bk)
+dev.off()
+
+##NEB
+# bk <- c(seq(-0.03,-0.001,by=0.001),seq(0,0.03,by=0.001))
+# mat=datamatrix[datamatrix$chr=="chr2" &datamatrix$start>152200000 &datamatrix$end<152700000,]
+# mat=mat[,c("WYL","YL","ZHC","ZK2","093-N","124-N","076-N","077-N","097-N","098-N","107-N","117-N","108-N","115-N","102-N","103-N","MXYL-N","116-N","118-N","121-N","122-N","123-N")]
+# library("pheatmap")
+# pdf("NEB_compartment.pdf",height=2,width=3)
+# pheatmap(t(mat),show_rownames=FALSE,cluster_rows = FALSE,cluster_cols = FALSE,border_color = NA,
+#          color = c(colorRampPalette(colors = c("blue","white"))(length(bk)/2),colorRampPalette(colors = c("white","red"))(length(bk)/2)),
+#          legend_breaks=seq(-0.03,0.03,0.03),
+#          breaks=bk)
+# dev.off()
+  
+bk <- c(seq(-0.03,-0.001,by=0.001),seq(0,0.03,by=0.001))
+mat=datamatrix[datamatrix$chr=="chr17" &datamatrix$start>65100000 &datamatrix$end<65900000,]
+mat=mat[,c("WYL","YL","ZHC","ZK2","093-N","124-N","076-N","077-N","097-N","098-N","107-N","117-N","108-N","115-N","102-N","103-N","MXYL-N","116-N","118-N","121-N","122-N","123-N")]
+library("pheatmap")
+pdf("PITPNC1_compartment.pdf",height=2,width=4)
+pheatmap(t(mat),show_rownames=FALSE,cluster_rows = FALSE,cluster_cols = FALSE,border_color = NA,annotation_row=annotation,annotation_colors =ann_colors,
+         color = c(colorRampPalette(colors = c("blue","white"))(length(bk)/2),colorRampPalette(colors = c("white","red"))(length(bk)/2)),
+         legend_breaks=seq(-0.03,0.03,0.03),
+         breaks=bk)
+dev.off()
+
+# WT1: chr11:32300000-32500000
+bk <- c(seq(-0.03,-0.001,by=0.001),seq(0,0.03,by=0.001))
+mat=datamatrix[datamatrix$chr=="chr11" &datamatrix$start>32200000 &datamatrix$end<32600000,]
+mat=mat[,c("ZHC","ZK2","WYL","YL","076-N","077-N","097-N","098-N","107-N","108-N","115-N","093-N","117-N","124-N","102-N","103-N","122-N","123-N","116-N","118-N","121-N","MXYL-N")]
+library("pheatmap")
+pdf("WT1_compartment.pdf",height=2,width=4)
+pheatmap(t(mat),show_rownames=FALSE,cluster_rows = FALSE,cluster_cols = FALSE,border_color = NA,annotation_row=annotation,annotation_colors =ann_colors,
+         color = c(colorRampPalette(colors = c("blue","white"))(length(bk)/2),colorRampPalette(colors = c("white","red"))(length(bk)/2)),
+         legend_breaks=seq(-0.03,0.03,0.03),
+         breaks=bk)
+dev.off()
+
+
+
+
+
+write.table(datamatrix,"compartment.bed",sep="\t",col.names=F,row.names=F,quote=F)
+stat=c(nrow(datamatrix))
+#datamatrix=na.omit(datamatrix)
+#stat=c(stat,stat-nrow(datamatrix))
+A2B=datamatrix[which(rowSums(datamatrix[,22:25]>0)==4 & rowSums(datamatrix[,4:21]<0)>12),]
+stat=c(stat,nrow(A2B))
+B2A=datamatrix[which(rowSums(datamatrix[,22:25]<0)==4 & rowSums(datamatrix[,4:21]>0)>12),]
+stat=c(stat,nrow(B2A))
+#stat=c(stat,stat[1]-stat[2]-stat[3]-stat[4])
+
+A2A=datamatrix[which(rowSums(datamatrix[,22:25]>0)==4 & rowSums(datamatrix[,4:21]>0)>12),]
+stat=c(stat,nrow(A2A))
+B2B=datamatrix[which(rowSums(datamatrix[,22:25]<0)==4 & rowSums(datamatrix[,4:21]<0)>12),]
+stat=c(stat,nrow(B2B))
+stat=c(stat,stat[1]-stat[2]-stat[3]-stat[4]-stat[5])
+
+library(ggplot2)
+dt = data.frame(A =stat[2:6], class= c('A to B','B to A','stable A','stable B','other'))
+dt = dt[order(dt$class, decreasing = TRUE),]
+myLabel = paste(round(dt$A / sum(dt$A) * 100, 2), "%", sep = "")
+pdf(paste(args[2],args[3],"pie.pdf",sep="_"),height=5,width=5)
+ggplot(dt, aes(x = "", y = A, fill = class)) +
+  geom_bar(stat = "identity", width = 0.2) +
+  coord_polar(theta = "y",start = pi / 2) +
+  theme_bw() +
+  labs(x = "", y = "", title =paste(args[2],'vs',args[3],sep=" ")) +
+  theme(axis.ticks = element_blank()) +
+  theme(legend.position = "bottom") +
+  theme(axis.text.x = element_blank()) +
+  geom_text(aes(y = A/2+c(0, cumsum(A)[-length(A)]), x = 1.3, label = myLabel), size = 4) +
+  theme(panel.grid=element_blank()) +    
+  theme(panel.border=element_blank())   
+dev.off()
+write.table(A2A[,1:3],paste(args[2],args[3],"A2A.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+write.table(B2B[,1:3],paste(args[2],args[3],"B2B.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+write.table(A2B[,1:3],paste(args[2],args[3],"A2B.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+write.table(B2A[,1:3],paste(args[2],args[3],"B2A.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+```
+
+```{bash}
+bedtools merge -i normal_T-ALL_A2B.bed -d 50000 >normal_T-ALL_A2B_merge.bed
+bedtools merge -i normal_T-ALL_B2A.bed -d 50000 >normal_T-ALL_B2A_merge.bed
+awk -v OFS="\t" '{print $0,$3-$2}' normal_T-ALL_A2B_merge.bed|sort -k4,4nr > tmp
+bedtools intersect -a tmp -b   /data01/reference/fchen/hg19_genes.bed -wao |sort -k4,4nr  -k1,1 -k2,2n -k3,3n -k9,9 -u >normal_T-ALL_A2B_merge_gene.bed
+awk -v OFS="\t" '{print $0,$3-$2}' normal_T-ALL_B2A_merge.bed|sort -k4,4nr > tmp
+bedtools intersect -a tmp -b   /data01/reference/fchen/hg19_genes.bed -wao |sort -k4,4nr  -k1,1 -k2,2n -k3,3n -k9,9 -u >normal_T-ALL_B2A_merge_gene.bed
+
+bedtools merge -i normal_T-ALL_A2A.bed -d 50000 >normal_T-ALL_A2A_merge.bed
+bedtools merge -i normal_T-ALL_B2B.bed -d 50000 >normal_T-ALL_B2B_merge.bed
+awk -v OFS="\t" '{print $0,$3-$2}' normal_T-ALL_A2A_merge.bed|sort -k4,4nr > tmp
+bedtools intersect -a tmp -b   /data01/reference/fchen/hg19_genes.bed -wao |sort -k4,4nr  -k1,1 -k2,2n -k3,3n -k9,9 -u >normal_T-ALL_A2A_merge_gene.bed
+awk -v OFS="\t" '{print $0,$3-$2}' normal_T-ALL_B2B_merge.bed|sort -k4,4nr > tmp
+bedtools intersect -a tmp -b   /data01/reference/fchen/hg19_genes.bed -wao |sort -k4,4nr  -k1,1 -k2,2n -k3,3n -k9,9 -u >normal_T-ALL_B2B_merge_gene.bed
+```
+
+
+## compartment vs gene expression
+```{r}
+res2=read.table("../RNA/DEGs.txt",header=TRUE,stringsAsFactors = FALSE)
+res2=res2[,c("genename","baseMean.1","log2FoldChange.1","lfcSE.1","stat.1","pvalue.1","padj.1","sig.1")]
+names(res2)=c("genename","baseMean","log2FoldChange","lfcSE","stat","pvalue","padj","sig")
+B2A=read.table("normal_T-ALL_B2A_merge_gene.bed")
+B2A=cbind(B2A,res2[match(B2A$V9,res2$genename),])
+B2Agene=as.character(unique(B2A[,9]))
+length(B2Agene)
+A2B=read.table("normal_T-ALL_A2B_merge_gene.bed")
+A2B=cbind(A2B,res2[match(A2B$V9,res2$genename),])
+A2Bgene=as.character(unique(A2B[,9]))
+length(A2Bgene)
+A2Bgene=A2Bgene[!(A2Bgene%in%B2Agene)]
+length(A2Bgene)
+
+A2A=read.table("normal_T-ALL_A2A_merge_gene.bed")
+A2A=cbind(A2A,res2[match(A2A$V9,res2$genename),])
+A2Agene=as.character(unique(A2A[,9]))
+length(A2Agene)
+A2Agene=A2Agene[!(A2Agene%in%c(B2Agene,A2Bgene))]
+length(A2Agene)
+
+B2B=read.table("normal_T-ALL_B2B_merge_gene.bed")
+B2B=cbind(B2B,res2[match(B2B$V9,res2$genename),])
+B2Bgene=as.character(unique(B2B[,9]))
+length(B2Bgene)
+B2Bgene=B2Bgene[!(B2Bgene%in%c(B2Agene,A2Bgene,A2Agene))]
+length(B2Bgene)
+
+
+gene=data.frame(genename=c(A2Agene,B2Bgene,A2Bgene,B2Agene),type=factor(c(rep("A2A",length(A2Agene)),rep("B2B",length(B2Bgene)),rep("A2B",length(A2Bgene)),rep("B2A",length(B2Agene))),levels=c("A2A","B2B","A2B","B2A")))
+
+dim(gene[which(gene$genename%in%names(table(gene$genename)[table(gene$genename)>1])),])
+
+gene=cbind(gene,res2[match(gene$genename,res2$genename),])
+gene=na.omit(gene)
+table(gene$type,gene$sig)
+table(gene$type)
+write.table(gene,"compartment_gene_express.txt",sep="\t",col.names = TRUE,row.names=FALSE,quote=F)
+
+pdf("compartmentswitch_expression_strict.pdf",width =2.8,height =3.4)
+boxplot(log2FoldChange~type,data=gene,outline=FALSE,xlab="", ylab="log2[fold change]",col=c("#999999","#999999", "#5665A9","#CB2429"), font=2)
+dev.off()
+df=gene
+wilcox.test(df$log2FoldChange[df$type=="A2B"],df$log2FoldChange[df$type=="A2A"],alternative = "less")$p.value
+wilcox.test(df$log2FoldChange[df$type=="A2B"],df$log2FoldChange[df$type=="B2B"],alternative = "less")$p.value
+
+wilcox.test(df$log2FoldChange[df$type=="B2A"],df$log2FoldChange[df$type=="A2A"],alternative = "greater")$p.value
+wilcox.test(df$log2FoldChange[df$type=="B2A"],df$log2FoldChange[df$type=="B2B"],alternative = "greater")$p.value
+df$genename[which(df$type=="B2A"&df$sig=="up")]
+df$genename[which(df$type=="A2B"&df$sig=="down")]
+write.table(df[df$type=="A2B",],"A2B_all_gene_express_strict.txt",sep="\t",col.names=F,row.names=F,quote=F)
+write.table(df[df$type=="B2A",],"B2A_all_gene_express_strict.txt",sep="\t",col.names=F,row.names=F,quote=F)
+
+```
+
+
+#####  wu hong
+
+```{r}
+args=c("/data02/fchen/TALL/all_results/compartment/","normal","T-ALL")
+sample = list.files(path = args[1])
+sample=c("093-N","124-N","076-N","077-N","097-N","098-N","107-N","117-N","108-N","115-N","102-N","103-N","MXYL-N","116-N","118-N","121-N","122-N","123-N","WYL","YL","ZHC","ZK2")
+dir = paste(args[1],"/",sample,"_pc1_ori.bdg",sep = "")
+n <- length(sample)
+datamatrix <- read.table(file =dir[1],stringsAsFactors=FALSE)
+for (jj in 2:n) {
+  data <- read.table(file = dir[jj],stringsAsFactors=FALSE)
+  datamatrix <- cbind(datamatrix, data[,4])
+}
+
+
+datamatrix=as.data.frame(datamatrix)
+names(datamatrix)=c("chr","start","end",sample)
+pdf("normalvsTALL_pie_eachpatient.pdf",height=5,width=5)
+for (i in 1:18){
+stat=c(nrow(datamatrix))
+#datamatrix=na.omit(datamatrix)
+stat=c(stat,stat-nrow(datamatrix))
+A2B=datamatrix[which(rowSums(datamatrix[,22:25]>0)==4 & datamatrix[,3+i]<0),]
+stat=c(stat,nrow(A2B))
+B2A=datamatrix[which(rowSums(datamatrix[,22:25]<0)==4 & datamatrix[,3+i]>0),]
+stat=c(stat,nrow(B2A))
+stat=c(stat,stat[1]-stat[2]-stat[3]-stat[4])
+library(ggplot2)
+dt = data.frame(A =stat[2:5], class= c('undefined','A to B','B to A','unchanged'))
+dt = dt[order(dt$class, decreasing = TRUE),]
+myLabel = paste(round(dt$A / sum(dt$A) * 100, 2), "%", sep = "")
+p=ggplot(dt, aes(x = "", y = A, fill = class)) +
+  geom_bar(stat = "identity", width = 0.2) +
+  coord_polar(theta = "y",start = pi / 2) +
+  theme_bw() +
+  labs(x = "", y = "", title =sample[i]) +
+  theme(axis.ticks = element_blank()) +
+  theme(legend.position = "bottom") +
+  theme(axis.text.x = element_blank()) +
+  geom_text(aes(y = A/2+c(0, cumsum(A)[-length(A)]), x = 1.3, label = myLabel), size = 4) +
+  theme(panel.grid=element_blank()) +    ## È¥µô°×É«Ô²¿òºÍÖÐ¼äµÄ×ø±êÏß
+  theme(panel.border=element_blank())   ## È¥µô×îÍâ²ãÕý·½ÐÎµÄ¿ò¿ò
+print(p)
+}
+dev.off()
+
+
+write.table(A2B[,1:3],paste(args[2],args[3],"A2B.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+write.table(B2A[,1:3],paste(args[2],args[3],"B2A.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+```

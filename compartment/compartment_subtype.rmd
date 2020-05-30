@@ -1,0 +1,135 @@
+---
+title: "compartment"
+output: html_document
+---
+```{r}
+args=c("/data02/fchen/TALL/all_results/compartment/","other","HOXA")
+sample = list.files(path = args[1])
+sample=c("093-N","124-N","076-N","077-N","097-N","098-N","107-N","117-N","108-N","115-N","102-N","103-N","MXYL-N","116-N","118-N","121-N","122-N","123-N","WYL","YL","ZHC","ZK2")
+dir = paste(args[1],"/",sample,"_pc1_ori.bdg",sep = "")
+n <- length(sample)
+datamatrix <- read.table(file =dir[1],stringsAsFactors=FALSE)
+for (jj in 2:n) {
+  data <- read.table(file = dir[jj],stringsAsFactors=FALSE)
+  datamatrix <- cbind(datamatrix, data[,4])
+}
+
+datamatrix=as.data.frame(datamatrix)
+names(datamatrix)=c("chr","start","end",sample)
+
+write.table(datamatrix,"compartment.bed",sep="\t",col.names=F,row.names=F,quote=F)
+type=c("TLX","TLX","ETP","ETP","ETP","ETP","ETP","TLX","ETP","ETP","HOXA","HOXA","TAL","TAL","TAL","TAL","HOXA","HOXA","normal","normal","normal","normal")
+pos1=which(type!="normal"& type!="HOXA")+3
+pos2=which(type!="normal"& type=="HOXA")+3
+
+length(pos1)*0.7
+length(pos2)*0.7
+stat=c(nrow(datamatrix))
+#datamatrix=na.omit(datamatrix)
+#stat=c(stat,stat-nrow(datamatrix))
+A2B=datamatrix[which(rowSums(datamatrix[,pos1]>0)>length(pos1)*0.7 & rowSums(datamatrix[,pos2]<0)>length(pos2)*0.7 ),]
+stat=c(stat,nrow(A2B))
+B2A=datamatrix[which(rowSums(datamatrix[,pos1]<0)>length(pos1)*0.7  & rowSums(datamatrix[,pos2]>0)>length(pos2)*0.7 ),]
+stat=c(stat,nrow(B2A))
+#stat=c(stat,stat[1]-stat[2]-stat[3]-stat[4])
+
+A2A=datamatrix[which(rowSums(datamatrix[,pos1]>0)>length(pos1)*0.7 & rowSums(datamatrix[,pos2]>0)>length(pos2)*0.7),]
+stat=c(stat,nrow(A2A))
+B2B=datamatrix[which(rowSums(datamatrix[,pos1]<0)>length(pos1)*0.7 & rowSums(datamatrix[,pos2]<0)>length(pos2)*0.7),]
+stat=c(stat,nrow(B2B))
+stat=c(stat,stat[1]-stat[2]-stat[3]-stat[4]-stat[5])
+
+library(ggplot2)
+dt = data.frame(A =stat[2:6], class= c('A to B','B to A','stable A','stable B','other'))
+dt = dt[order(dt$class, decreasing = TRUE),]
+myLabel = paste(round(dt$A / sum(dt$A) * 100, 2), "%", sep = "")
+pdf(paste(args[2],args[3],"pie.pdf",sep="_"),height=5,width=5)
+ggplot(dt, aes(x = "", y = A, fill = class)) +
+  geom_bar(stat = "identity", width = 0.2) +
+  coord_polar(theta = "y",start = pi / 2) +
+  theme_bw() +
+  labs(x = "", y = "", title =paste(args[2],'vs',args[3],sep=" ")) +
+  theme(axis.ticks = element_blank()) +
+  theme(legend.position = "bottom") +
+  theme(axis.text.x = element_blank()) +
+  geom_text(aes(y = A/2+c(0, cumsum(A)[-length(A)]), x = 1.3, label = myLabel), size = 4) +
+  theme(panel.grid=element_blank()) +    
+  theme(panel.border=element_blank())   
+dev.off()
+write.table(A2A[,1:3],paste(args[2],args[3],"A2A.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+write.table(B2B[,1:3],paste(args[2],args[3],"B2B.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+write.table(A2B[,1:3],paste(args[2],args[3],"A2B.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+write.table(B2A[,1:3],paste(args[2],args[3],"B2A.bed",sep="_"),sep="\t",col.names=F,row.names=F,quote=F)
+```
+
+```{bash}
+i=HOXA
+bedtools merge -i other_${i}_A2B.bed -d 50000 >other_${i}_A2B_merge.bed
+bedtools merge -i other_${i}_B2A.bed -d 50000 >other_${i}_B2A_merge.bed
+awk -v OFS="\t" '{print $0,$3-$2}' other_${i}_A2B_merge.bed|sort -k4,4nr > tmp
+bedtools intersect -a tmp -b   /data01/reference/fchen/hg19_genes.bed -wao |sort -k4,4nr  -k1,1 -k2,2n -k3,3n -k9,9 -u >other_${i}_A2B_merge_gene.bed
+awk -v OFS="\t" '{print $0,$3-$2}' other_${i}_B2A_merge.bed|sort -k4,4nr > tmp
+bedtools intersect -a tmp -b   /data01/reference/fchen/hg19_genes.bed -wao |sort -k4,4nr  -k1,1 -k2,2n -k3,3n -k9,9 -u >other_${i}_B2A_merge_gene.bed
+
+bedtools merge -i other_${i}_A2A.bed -d 50000 >other_${i}_A2A_merge.bed
+bedtools merge -i other_${i}_B2B.bed -d 50000 >other_${i}_B2B_merge.bed
+awk -v OFS="\t" '{print $0,$3-$2}' other_${i}_A2A_merge.bed|sort -k4,4nr > tmp
+bedtools intersect -a tmp -b   /data01/reference/fchen/hg19_genes.bed -wao |sort -k4,4nr  -k1,1 -k2,2n -k3,3n -k9,9 -u >other_${i}_A2A_merge_gene.bed
+awk -v OFS="\t" '{print $0,$3-$2}' other_${i}_B2B_merge.bed|sort -k4,4nr > tmp
+bedtools intersect -a tmp -b   /data01/reference/fchen/hg19_genes.bed -wao |sort -k4,4nr  -k1,1 -k2,2n -k3,3n -k9,9 -u >other_${i}_B2B_merge_gene.bed
+```
+
+
+## compartment vs gene expression
+```{r}
+res2=read.table("../RNA/DEGs.txt",header=TRUE,stringsAsFactors = FALSE)
+res2=res2[,c("genename","baseMean","log2FoldChange","lfcSE","stat","pvalue","padj","sig")]
+names(res2)=c("genename","baseMean","log2FoldChange","lfcSE","stat","pvalue","padj","sig")
+B2A=read.table("subtype/other_HOXA_B2A_merge_gene.bed")
+B2A=cbind(B2A,res2[match(B2A$V9,res2$genename),])
+B2Agene=as.character(unique(B2A[,9]))
+length(B2Agene)
+A2B=read.table("subtype/other_HOXA_A2B_merge_gene.bed")
+A2B=cbind(A2B,res2[match(A2B$V9,res2$genename),])
+A2Bgene=as.character(unique(A2B[,9]))
+length(A2Bgene)
+A2Bgene=A2Bgene[!(A2Bgene%in%B2Agene)]
+length(A2Bgene)
+
+A2A=read.table("subtype/other_HOXA_A2A_merge_gene.bed")
+A2A=cbind(A2A,res2[match(A2A$V9,res2$genename),])
+A2Agene=as.character(unique(A2A[,9]))
+length(A2Agene)
+A2Agene=A2Agene[!(A2Agene%in%c(B2Agene,A2Bgene))]
+length(A2Agene)
+
+B2B=read.table("subtype/other_HOXA_B2B_merge_gene.bed")
+B2B=cbind(B2B,res2[match(B2B$V9,res2$genename),])
+B2Bgene=as.character(unique(B2B[,9]))
+length(B2Bgene)
+B2Bgene=B2Bgene[!(B2Bgene%in%c(B2Agene,A2Bgene,A2Agene))]
+length(B2Bgene)
+
+
+gene=data.frame(genename=c(A2Agene,B2Bgene,A2Bgene,B2Agene),type=factor(c(rep("A2A",length(A2Agene)),rep("B2B",length(B2Bgene)),rep("A2B",length(A2Bgene)),rep("B2A",length(B2Agene))),levels=c("A2A","B2B","A2B","B2A")))
+
+dim(gene[which(gene$genename%in%names(table(gene$genename)[table(gene$genename)>1])),])
+
+gene=cbind(gene,res2[match(gene$genename,res2$genename),])
+gene=na.omit(gene)
+table(gene$type,gene$sig)
+table(gene$type)
+write.table(gene,"subtype/other_HOXA_compartment_gene_express.txt",sep="\t",col.names = TRUE,row.names=FALSE,quote=F)
+
+pdf("subtype/other_HOXA_compartmentswitch_expression_strict.pdf",width =2.8,height =3.4)
+boxplot(log2FoldChange~type,data=gene,outline=FALSE,xlab="", ylab="log2[fold change]",col=c("#999999","#999999", "#5665A9","#CB2429"), font=2)
+dev.off()
+df=gene
+wilcox.test(df$log2FoldChange[df$type=="A2B"],df$log2FoldChange[df$type=="A2A"],alternative = "less")$p.value
+wilcox.test(df$log2FoldChange[df$type=="A2B"],df$log2FoldChange[df$type=="B2B"],alternative = "less")$p.value
+
+wilcox.test(df$log2FoldChange[df$type=="B2A"],df$log2FoldChange[df$type=="A2A"],alternative = "greater")$p.value
+wilcox.test(df$log2FoldChange[df$type=="B2A"],df$log2FoldChange[df$type=="B2B"],alternative = "greater")$p.value
+df$genename[which(df$type=="B2A"&df$sig=="up")]
+df$genename[which(df$type=="A2B"&df$sig=="down")]
+```
