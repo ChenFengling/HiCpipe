@@ -18,6 +18,8 @@ The outputs is listed as following:
 | loop | HiCloop | loops(.bedpe) |
 | qc | shell | Hi-C quality report |
 
+&emsp;&emsp;Here is the general features of HiCpipe software.(in developing)  
+<div align=center><img width="420" height="300" src="https://github.com/ChenFengling/HiCpipe/HiCpipe.png"/></div>
 
 Other utility:  
 Easy clustering based on compartment and insulation.  
@@ -77,47 +79,6 @@ You will find the qc report **REPORT_NAME_report.txt** under PROJECT_PATH.
 **Valid_interaction_pairs/Total_PETsTotal_PETs (>50%)**  
 **valid_interaction_rmdup/Valid_interaction_pairs (>85%)**  
 **cis_interaction/trans_interaction (>1.5)**  
-
-#### trimming step  
-**trim the BL-linker and discard the reads with  less than 15 bases.**     
-Total_PETs   
-Expect_PETs    
-Expect_both_PETs    
-Chim_PETs  
-1Empty_PETs: The PETs with one end does'not have linker    
-2Empty_PETs: The PETs with two ends don't have linker   
-Valid_PETs: Trimed PETs with short reads filtered    
-#### mapping step  
-Total_pairs_processed  
-Unmapped_pairs  
-Low_qual_pairs  
-Unique_paired_alignments  
-Multiple_pairs_alignments  
-Pairs_with_singleton  
-Low_qual_singleton  
-Unique_singleton_alignments  
-Multiple_singleton_alignments  
-Reported_pairs  
-#### filter invalid pairs  
-**filter the data according to restriction sites**  
-Valid_interaction_pairs  
-Valid_interaction_pairs_FF  
-Valid_interaction_pairs_RR  
-Valid_interaction_pairs_RF  
-Valid_interaction_pairs_FR  
-Dangling_end_pairs  
-Religation_pairs  
-Self_Cycle_pairs  
-Single-end_pairs  
-Dumped_pairs  
-#### filter duplictes   
-valid_interaction  
-valid_interaction_rmdup  
-trans_interaction  
-cis_interaction  
-cis_shortRange  
-cis_longRange    
-
 
 ## citation
 [HiCDB paper](https://academic.oup.com/nar/article/46/21/11239/5090284)  

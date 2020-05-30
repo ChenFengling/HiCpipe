@@ -1,5 +1,5 @@
 # HiCpipe - resolution calculation
-## quick start 
+## usage 
 ```shell
 for i in */*.validPairs
 do
