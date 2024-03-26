@@ -1,4 +1,4 @@
-<h1><img src="https://github.com/ChenFengling/HiCpipe/blob/master/HiCpipe.png" alt="HiCpipe Logo" style="float:left; margin-right:20px;" width="40" height="40"/>HiCpipe – user guide</h1>
+<h1><img src="https://github.com/ChenFengling/HiCpipe/blob/master/HiCpipelogo.png" alt="HiCpipe Logo" style="float:left; margin-right:20px;" width="60" height="40"/>HiCpipe – user guide</h1>
 
 #### general description of the pipeline
 This pipeline is for BL-Hi-C.It is based on Juicer and HiC-pro which combines the advatages of these two processing pipelines. HiCpipe is much faster than Juicer and HiC-pro and can output multile features of Hi-C maps. The main.sh will trim the Linker of BL-Hi-C and map the data to certein genome. Then it will use the subjob.sh script to do the other steps in parallel in shell background. You could use top or htop to check your running program. 
